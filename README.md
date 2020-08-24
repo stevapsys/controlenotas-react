@@ -2,7 +2,7 @@
 
 Projeto realizado dentro do módulo de React do bootcamp de Full Stack da IGTI. O desafio era criar um sistema de notas consumindo uma API com React Hooks 
 
--PROJETO AINDA EM DESENVOLVIMENTO
+**Nota: projeto ainda em desenvolvimento**
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
