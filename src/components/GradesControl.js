@@ -38,10 +38,17 @@ export default function GradesControl({ grades, onPersist, onDelete }) {
 
     //console.log(tableGrades);
 
+    //função para acionar os cliques de delete e edição
     const handleActionClick = (id, type) => {
+        //para mandar a nota e não só o id 
+        const grade = grades.find(grade => grade.id === id);
+        if (type === 'delete'){
+            onDelete(grade)
+        }
 
-        console.log(id);
-        console.log(type);
+        onPersist(grade);
+        //console.log(id);
+        //console.log(type);
     }
     return (
         <div className="container center">

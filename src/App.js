@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import * as api from './api/apiService';
 import Spinner from './components/Spinner';
 import GradesControl from './components/GradesControl';
+import ModalGrade from './components/ModalGrade';
 
 
 export default function App () {
@@ -34,12 +35,23 @@ export default function App () {
       getGrades();
     }, []); 
 
-    const handleDelete = () => {
-      console.log('handleDelete');
+    const handleDelete = async (gradeToDelete) => {
+     const isDeleted = await api.deleteGrade(gradeToDelete);
+     
+     //para mostrar que foi deletado sem ter que atualizar a página
+     if (isDeleted){
+       const deletedGradeIndex = allGrades.findIndex((grade) => grade.id === gradeToDelete.id);
+       const newGrades = Object.assign([], allGrades);
+       newGrades[deletedGradeIndex].isDeleted = true;
+       newGrades[deletedGradeIndex].value = 0;
+
+       setAllGrades(newGrades);
+     }
     }
 
-    const handlePersist = () => {
-      console.log('handlePersist');
+    const handlePersist = (grade) => {
+     //setSeletedGrade(grade);
+      setIsModalOpen(true); 
     }
 
 
@@ -47,15 +59,17 @@ export default function App () {
     <div className="container">
       <h1 className="center">Controle de Notas</h1>
       {/* Se for igual a 0, ou seja, nada, mostra o spinner de carregando */}
-      {allGrades.length == 0 &&  <Spinner />}
+      {allGrades.length === 0 &&  <Spinner />}
 
       {/* Se for maior que zero, carrega o gradesControl */}
 
-      {allGrades.length > 0 &&  <GradesControl 
+      {allGrades.length > 0 &&  ( <GradesControl 
       grades={allGrades} 
       onDelete={handleDelete}
       onPersist={handlePersist}
-      />}
+      />
+      )}
+      {isModalOpen && <ModalGrade/>}
     </div>
     ); 
 }
