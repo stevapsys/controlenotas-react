@@ -154,13 +154,14 @@ async function deleteGrade(grade){
 
 async function getValidationFromGradeType(gradeType) {
   const gradeValidation = GRADE_VALIDATION.find(
-    (item) => item.gradeType == gradeType
+    (item) => item.gradeType === gradeType
   );
 
-  //validando a nota quando ela for adicionada 
+  const { minValue, maxValue } = gradeValidation;
+
   return {
-    minValue: gradeValidation.minValue,
-    maxValue: gradeValidation.maxValue,
+    minValue,
+    maxValue,
   };
 }
 

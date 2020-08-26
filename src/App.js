@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'; 
-import * as api from './api/apiService';
 import Spinner from './components/Spinner';
 import GradesControl from './components/GradesControl';
 import ModalGrade from './components/ModalGrade';
 
+import * as api from './api/apiService';
 
 export default function App () {
     //testando a API
@@ -39,7 +39,7 @@ export default function App () {
      const isDeleted = await api.deleteGrade(gradeToDelete);
      
      //para mostrar que foi deletado sem ter que atualizar a página
-     if (isDeleted){
+     if (isDeleted) {
        const deletedGradeIndex = allGrades.findIndex((grade) => grade.id === gradeToDelete.id);
        const newGrades = Object.assign([], allGrades);
        newGrades[deletedGradeIndex].isDeleted = true;
@@ -49,11 +49,18 @@ export default function App () {
      }
     }
 
-    const handlePersist = (grade) => {
-     //setSeletedGrade(grade);
-      setIsModalOpen(true); 
-    }
+    const handleModalPersist = (grade) => {
+      setSelectedGrade(grade);
+      setIsModalOpen(true);
+    };
 
+    const handlePersistData = () => {};
+
+    const handleClose = () => {
+      setIsModalOpen(false);
+    };
+    const selectGrade = () => {};
+    
 
     return (
     <div className="container">
@@ -66,10 +73,14 @@ export default function App () {
       {allGrades.length > 0 &&  ( <GradesControl 
       grades={allGrades} 
       onDelete={handleDelete}
-      onPersist={handlePersist}
+      onPersist={handleModalPersist}
       />
       )}
-      {isModalOpen && <ModalGrade/>}
+      {isModalOpen && <ModalGrade 
+        onSave={handlePersistData} 
+        onClose={handleClose} 
+        selectedGrade={selectedGrade} 
+        />}
     </div>
     ); 
 }
